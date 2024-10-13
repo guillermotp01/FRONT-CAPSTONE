@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,5 +10,9 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
+  private login = inject (AuthService)
 
+  CerrarSesion(){
+    this.login.logout();
+  }
 }

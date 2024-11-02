@@ -2,13 +2,13 @@
 <div class="w-full flex justify-between items-center mb-3 mt-1 pl-3">
     <div class="bg-gray-200 col-12 mt-3 flex items-center justify-center">
         <button type="button" class="flex items-center space-x-2 px-4 py-2 bg-black text-white rounded-lg shadow-sm hover:bg-gray-800 transition-colors">
-          <!-- SVG icon space -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <!-- SVG icon space -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 12h16m-7 5h7M4 5v14M12 4v16" />
-          </svg>
-          <span>Filtro</span>
+            </svg>
+            <span>Filtro</span>
         </button>
-      </div>
+    </div>
 
     <div class="ml-3">
         <div class="w-full max-w-sm min-w-[200px] relative">
@@ -30,25 +30,100 @@
 </div>
 <hr>    
 
+<!-- Modal ACTUALIZAR -->
+<div *ngIf="showModalActualizar" class="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="relative flex flex-col bg-white rounded shadow-md text-black w-[600px] p-6">
+        <span class="absolute top-4 right-4 cursor-pointer text-2xl text-black font-bold" (click)="cerrarModalActualizar()">&times;</span>
+        <h1 class="mb-8 text-3xl text-center">Actualizar Colaborador</h1>
+        <hr class="mb-4"> 
+        <form (ngSubmit)="actualizarColaborador()">
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <input 
+                    type="text"
+                    [(ngModel)]="colaborador.nombre" 
+                    name="nombre"
+                    class="block border border-grey-light w-full p-3 rounded"
+                    placeholder="Nombre" required />
+
+                <input 
+                    type="text"
+                    [(ngModel)]="colaborador.apellido" 
+                    name="apellido"
+                    class="block border border-grey-light w-full p-3 rounded"
+                    placeholder="Apellido" required />
+
+                <select 
+                    [(ngModel)]="colaborador.tipoColaborador" 
+                    name="tipoColaborador"
+                    class="block border border-grey-light w-full p-3 rounded">
+                    <option value="">Tipo de documento</option>
+                    <option value="Lider">Lider</option>
+                    <option value="Co-Lider">Co-Lider</option>
+                    <option value="Facilitador">Facilitador</option>
+                </select>
+
+                <select 
+                    [(ngModel)]="colaborador.tipoDoc" 
+                    name="tipoDoc"
+                    class="block border border-grey-light w-full p-3 rounded" required>
+                    <option value="">Tipo de documento</option>
+                    <option value="dni">DNI</option>
+                    <option value="pasaporte">Pasaporte</option>
+                    <option value="cedula">Cédula</option>
+                </select>
+
+                <input 
+                    type="text"
+                    [(ngModel)]="colaborador.numDoc" 
+                    name="numDoc"
+                    class="block border border-grey-light w-full p-3 rounded"
+                    placeholder="Nro de Documento" required />
+
+                <input 
+                    type="text"
+                    [(ngModel)]="colaborador.celular" 
+                    name="celular"
+                    class="block border border-grey-light w-full p-3 rounded"
+                    placeholder="Celular" required />
+
+                <input 
+                    type="email"
+                    [(ngModel)]="colaborador.correo" 
+                    name="correo"
+                    class="block border border-grey-light w-full p-3 rounded"
+                    placeholder="Correo" required />
+            </div>
+
+            <div class="flex justify-center mt-6">
+                <button
+                    type="submit"
+                    class="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 focus:outline-none">
+                    Actualizar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 <!--COLABORADORES-->
 
 <div class="relative bg-clip-border rounded-xl overflow-hidden bg-transparent text-gray-700 shadow-none m-0 flex items-center justify-between p-6">
     <div>
-      <h6 class="block antialiased tracking-normal font-sans text-3xl font-semibold leading-relaxed text-blue-gray-900 mb-1">Colaboradores</h6>
+        <h6 class="block antialiased tracking-normal font-sans text-3xl font-semibold leading-relaxed text-blue-gray-900 mb-1">Colaboradores</h6>
     </div>
-    <button (click)="abrirModalAgregar()" aria-expanded="false" aria-haspopup="menu" id=":r5:" class="relative middle none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-32 h-8 rounded-lg text-xs text-white bg-[#171e2c] hover:bg-[#35383e] active:bg-[#2A2C30]" type="button">
-      <span class="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2">AGREGAR</span>
+    <button (click)="crearColaborador()" aria-expanded="false" aria-haspopup="menu" id=":r5:" class="relative middle none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-32 h-8 rounded-lg text-xs text-white bg-[#171e2c] hover:bg-[#35383e] active:bg-[#2A2C30]" type="button">
+        <span class="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2">AGREGAR</span>
     </button>
-  </div>
-  
+</div>
+
 
 <!-- Modal ELIMINAR -->
 <div *ngIf="showModalEliminar" class="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center">
     <div class="relative flex flex-col bg-white rounded shadow-md text-black w-[400px] p-6">
-      <span class="absolute top-4 right-4 cursor-pointer text-2xl text-black font-bold" (click)="cerrarModalEliminar()">&times;</span>
-      <h1 class="mb-8 text-2xl text-center">¿Desea Eliminar el colaborador?</h1>
-      <div class="flex justify-center space-x-8">
+        <span class="absolute top-4 right-4 cursor-pointer text-2xl text-black font-bold" (click)="cerrarModalEliminar()">&times;</span>
+        <h1 class="mb-8 text-2xl text-center">¿Desea Eliminar el colaborador?</h1>
+        <div class="flex justify-center space-x-8">
             <!-- Boton confirmar (negro) -->
             <button class="bg-black p-3 pl-4 pr-4 rounded-lg font-bold text-white transition duration-500 ease-in-out hover:ring-2 ring-offset-2 ring-gray-800" (click)="eliminarColaborador()">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
@@ -62,35 +137,46 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
-      </div>
+        </div>
     </div>
 </div>
-
 
 <!-- Modal AGREGAR -->
 <div *ngIf="showModalAgregar" class="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center">
     <div class="relative flex flex-col bg-white rounded shadow-md text-black w-[600px] p-6">
-      <span class="absolute top-4 right-4 cursor-pointer text-2xl text-black font-bold" (click)="cerrarModalAgregar()">&times;</span>
+        <span class="absolute top-4 right-4 cursor-pointer text-2xl text-black font-bold" (click)="cerrarModalAgregar()">&times;</span>
         <h1 class="mb-8 text-3xl text-center">Agregar Colaborador</h1>
         <hr class="mb-4"> 
-        <form>
+        <form (ngSubmit)="agregarColaborador()">
             <div class="grid grid-cols-2 gap-4 mb-4">
-
                 <input 
                     type="text"
-                    class="block border border-grey-light w-full p-3 rounded"
+                    [(ngModel)]="colaborador.nombre" 
                     name="nombre"
+                    class="block border border-grey-light w-full p-3 rounded"
                     placeholder="Nombre" />
 
                 <input 
                     type="text"
-                    class="block border border-grey-light w-full p-3 rounded"
+                    [(ngModel)]="colaborador.apellido" 
                     name="apellido"
+                    class="block border border-grey-light w-full p-3 rounded"
                     placeholder="Apellido" />
 
                 <select 
-                    class="block border border-grey-light w-full p-3 rounded"
-                    name="tipo_documento">
+                    [(ngModel)]="colaborador.tipoColaborador" 
+                    name="tipoColaborador"
+                    class="block border border-grey-light w-full p-3 rounded">
+                    <option value="">Tipo de documento</option>
+                    <option value="Lider">Lider</option>
+                    <option value="Co-Lider">Co-Lider</option>
+                    <option value="Facilitador">Facilitador</option>
+                </select>
+
+                <select 
+                    [(ngModel)]="colaborador.tipoDoc" 
+                    name="tipoDoc"
+                    class="block border border-grey-light w-full p-3 rounded">
                     <option value="">Tipo de documento</option>
                     <option value="dni">DNI</option>
                     <option value="pasaporte">Pasaporte</option>
@@ -98,30 +184,25 @@
                 </select>
 
                 <input 
-                    type="number"
-                    class="block border border-grey-light w-full p-3 rounded"
-                    name="nro_documento"
+                    type="text"
+                    [(ngModel)]="colaborador.numDoc" 
+                    name="numDoc"
+                    class="block border bo-grey-light w-full p-3 rorderunded"
                     placeholder="Nro de Documento" />
 
                 <input 
                     type="text"
-                    class="block border border-grey-light w-full p-3 rounded"
+                    [(ngModel)]="colaborador.celular" 
                     name="celular"
+                    class="block border border-grey-light w-full p-3 rounded"
                     placeholder="Celular" />
 
                 <input 
                     type="email"
-                    class="block border border-grey-light w-full p-3 rounded"
+                    [(ngModel)]="colaborador.correo" 
                     name="correo"
-                    placeholder="Correo" />
-
-                <select 
                     class="block border border-grey-light w-full p-3 rounded"
-                    name="tipo_colaborador">
-                    <option value="">Tipo de colaborador</option>
-                    <option value="administrativo">Administrativo</option>
-                    <option value="añañin">Añañin</option>
-                </select>
+                    placeholder="Correo" />
             </div>
 
             <div class="flex justify-center mt-6">
@@ -136,59 +217,19 @@
 </div>
 
 
-
-  <!--COLABORADORES-->
-
-<div class="mb-10 flex gap-x-6">
-    
-    <!-- Card 1 -->
-    <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
+<!--COLABORADORES-->
+<div class="mb-10 flex flex-wrap gap-x-6 gap-y-6" *ngFor="let colaborador of colaboradores">
+    <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md w-72"> 
         <div class="flex justify-between">
             <div class="p-4 text-left">
-                <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">Leder</h4>
+                <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
+                    {{ colaborador.tipoColaborador }}
+                </h4>
             </div>
             <div class="flex p-4 text-right">
-                <a class="mx-2" href="#">
-                    <button class="flex items-center justify-center w-auto h-auto bg-[#171e2c] text-white rounded-lg p-2 hover:bg-[#35383e] active:bg-[#2A2C30] disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                        </svg>                          
-                    </button>
-                </a>
-                <!-- Botón Eliminar -->
-                <a>
-                    <button 
-                    class="flex items-center justify-center w-auto h-auto bg-[#171e2c] text-white rounded-lg p-2 hover:bg-[#35383e] active:bg-[#2A2C30] disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none" 
-                    type="button" 
-                    (click)="abrirModalEliminar()">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                    </svg>                          
-                    </button>
-                </a>
-            </div>
-        </div>
-        <div class="border-t border-blue-gray-50 p-4">
-            <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
-                <strong class="text-black-500">Nombres: </strong><br>
-                <strong class="text-black-500">Apellidos: </strong><br>
-                <strong class="text-black-500">Tipo de documento: </strong><br>
-                <strong class="text-black-500">Nro. de documento: </strong><br>
-                <strong class="text-black-500">Celular: </strong><br>
-                <strong class="text-black-500">Correo: </strong>
-            </p>
-        </div>
-    </div>
-
-    <!-- Card 2 -->
-    <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
-        <div class="flex justify-between">
-            <div class="p-4 text-left">
-                <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">Co-Leder</h4>
-            </div>
-            <div class="flex p-4 text-right">
-                <a class="mx-2" href="#">
-                    <button class="flex items-center justify-center w-auto h-auto bg-[#171e2c] text-white rounded-lg p-2 hover:bg-[#35383e] active:bg-[#2A2C30] disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none" type="button">
+                <a class="mx-2">
+                    <button class="flex items-center justify-center w-auto h-auto bg-[#171e2c] text-white rounded-lg p-2 hover:bg-[#35383e] active:bg-[#2A2C30] disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none" type="button" 
+                    (click)="modalActualizar(colaborador)">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                         </svg>                          
@@ -198,7 +239,7 @@
                     <button 
                     class="flex items-center justify-center w-auto h-auto bg-[#171e2c] text-white rounded-lg p-2 hover:bg-[#35383e] active:bg-[#2A2C30] disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none" 
                     type="button" 
-                    (click)="abrirModalEliminar()">
+                    (click)="modalEliminar(colaborador.idColaborador)">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                     </svg>                          
@@ -208,54 +249,17 @@
         </div>
         <div class="border-t border-blue-gray-50 p-4">
             <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
-                <strong class="text-black-500">Nombres: </strong><br>
-                <strong class="text-black-500">Apellidos: </strong><br>
-                <strong class="text-black-500">Tipo de documento: </strong><br>
-                <strong class="text-black-500">Nro. de documento: </strong><br>
-                <strong class="text-black-500">Celular: </strong><br>
-                <strong class="text-black-500">Correo: </strong>
-            </p>
-        </div>
-    </div>
-
-    <!-- Card 3 -->
-    <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
-        <div class="flex justify-between">
-            <div class="p-4 text-left">
-                <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">Esclavo</h4>
-            </div>
-            <div class="flex p-4 text-right">
-                <a class="mx-2" href="#">
-                    <button class="flex items-center justify-center w-auto h-auto bg-[#171e2c] text-white rounded-lg p-2 hover:bg-[#35383e] active:bg-[#2A2C30] disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                        </svg>                          
-                    </button>
-                </a>
-                <a>
-                    <button 
-                    class="flex items-center justify-center w-auto h-auto bg-[#171e2c] text-white rounded-lg p-2 hover:bg-[#35383e] active:bg-[#2A2C30] disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none" 
-                    type="button" 
-                    (click)="abrirModalEliminar()">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                    </svg>                          
-                    </button>
-                </a>
-            </div>
-        </div>
-        <div class="border-t border-blue-gray-50 p-4">
-            <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
-                <strong class="text-black-500">Nombres: </strong><br>
-                <strong class="text-black-500">Apellidos: </strong><br>
-                <strong class="text-black-500">Tipo de documento: </strong><br>
-                <strong class="text-black-500">Nro. de documento: </strong><br>
-                <strong class="text-black-500">Celular: </strong><br>
-                <strong class="text-black-500">Correo: </strong>
+                <strong class="text-black-500">Nombres: </strong>{{ colaborador.nombre }}<br>
+                <strong class="text-black-500">Apellidos: </strong>{{ colaborador.apellido }}<br>
+                <strong class="text-black-500">Tipo de documento: </strong>{{ colaborador.tipoDoc }}<br>
+                <strong class="text-black-500">Nro. de documento: </strong>{{ colaborador.numDoc }}<br>
+                <strong class="text-black-500">Celular: </strong>{{ colaborador.celular }}<br>
+                <strong class="text-black-500">Correo: </strong>{{ colaborador.correo }}
             </p>
         </div>
     </div>
 </div>
+
 
 <div class="flex justify-center">
     <nav aria-label="Page navigation example">
@@ -281,7 +285,7 @@
             </li>
         </ul>
     </nav>
-  </div>
+</div>
 
 
 

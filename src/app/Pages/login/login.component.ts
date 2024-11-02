@@ -1,15 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthService } from '../../auth.service';  // Ruta corregida
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';  // Importar FormsModule
+import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { LoginService } from '../../Services/login.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, HttpClientModule, FormsModule],  // FormsModule agregado
-  providers: [AuthService],
+  imports: [RouterLink, RouterLinkActive, HttpClientModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -17,37 +16,35 @@ export default class LoginComponent {
   username: string = '';
   password: string = '';
 
-  private router = inject(Router)
-  dashboard(){
-    this.router.navigate(['dashboard']);
-  }
+  private router = inject(Router);
+  private loginService = inject(LoginService); 
 
-  constructor(private authService: AuthService) {}
+  constructor() {}
 
   onSubmit() {
-    this.authService.login(this.username, this.password).subscribe({
-      next: (response) => {
-        if (response.token) {
-          this.authService.saveToken(response.token); // Guardar el token si es generado
-          console.log('Login exitoso!', response);
-          this.dashboard();
-        } else {
-          console.error('Login fallido', response.Estado);
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Fallaste en tu inicio de sesión tontin",
-          });
+    this.loginService.login(this.username, this.password).subscribe({
+        next: (response) => {
+            console.log(response); 
+            if (response.token) {
+                this.loginService.loginUser(response.token, response.rol);
+                if (response.rol == 'Administrador') {
+                  this.router.navigate(['pagina/registrarOrganizacion']);
+                  Swal.fire('Éxito', 'Inicio de sesión exitoso', 'success');
+                }else{
+                  this.router.navigate(['pagina/dashboard']);
+                  Swal.fire('Éxito', 'Inicio de sesión exitoso', 'success');
+                }
+            } else {
+                Swal.fire('Error', 'No se recibió un token', 'error');
+            }
+        },
+        error: (error) => {
+            Swal.fire('Error', 'Credenciales incorrectas', 'error');
         }
-      },
-      error: (err) => {
-        console.error('Error en la solicitud', err);
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Error de Servidor",
-        });
-      }
     });
+  }
+
+  dashboard() {
+    this.router.navigate(['pagina/dashboard']);
   }
 }

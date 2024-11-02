@@ -3,12 +3,18 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
-import { HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
+import { AuthInterceptor } from './Services/AuthInterceptor';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideClientHydration(),
-    HttpClientModule, // ¡Importante! Añade HttpClientModule aquí
-    provideHttpClient()
+  providers: [
+    provideRouter(routes), 
+    provideClientHydration(),
+    provideHttpClient(), 
+    /*{
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },*/
   ]
-  
 };
